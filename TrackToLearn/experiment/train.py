@@ -298,6 +298,9 @@ class TrackToLearnTraining(TrackToLearnExperiment):
         # The RL training algorithm
         alg = self.get_alg(max_traj_length)
 
+        # inserted code
+        self.hyperparameters.update({'voxel_size': str(self.voxel_size)})
+        
         # Save hyperparameters to differentiate experiments later
         self.save_hyperparameters()
 

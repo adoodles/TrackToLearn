@@ -59,7 +59,7 @@ if (( $CUDA_VISIBLE_DEVICES > -1 )); then
 for step_size in "${stepsize[@]}"
 do
 
-    ID="$(date +"%F-%H_%M_%S")_${step_size}" 
+    ID="$(date +"%F-%H_%M_%S")_${step_size//.}" 
 
     DEST_FOLDER=$EXPERIMENTS_FOLDER/$EXPERIMENT/$ID
 

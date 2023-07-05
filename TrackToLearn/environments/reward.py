@@ -91,6 +91,9 @@ class Reward(object):
         self.scoring_data = scoring_data
         self.reference = reference
 
+        print('Data structure of peaks and stuff')
+        print({'Peaks': self.peaks})
+        print({'asymmetric': self.asymmetric})
         # if self.scoring_data:
         #     print('WARNING: Rewarding from the Tractometer is not currently '
         #           'officially supported and may not work. If you do want to '
@@ -406,6 +409,8 @@ def reward_alignment_with_peaks(
         # Not enough segments to compute curvature
         return np.ones(len(streamlines), dtype=np.uint8)
 
+    if streamlines.shape[1] < 5:
+        print({'streamline of length <5:': streamlines})
     X, Y, Z, P = peaks.shape
     idx = streamlines[:, -2].astype(np.int32)
 

@@ -320,6 +320,11 @@ class Reward(object):
         showm.initialize()
         showm.start()
 
+    def update_max_steps(self, new_max_nb_steps, new_min_nb_steps):
+        self.max_nb_steps = new_max_nb_steps
+        self.min_nb_steps = new_min_nb_steps
+        print('Max and min nb steps updated')
+
 
 def penalize_exclude(streamlines, exclude, penalty_factor):
     """ Penalize streamlines if they loop

@@ -148,6 +148,9 @@ class BaseEnv(object):
                 angle_penalty_factor=self.angle_penalty_factor,
                 scoring_data=self.scoring_data,
                 reference=self.reference)
+            
+        else:
+            self.reward_function = "compute_reward set to false"
 
         self.stopping_criteria[StoppingFlags.STOPPING_LENGTH] = \
             functools.partial(is_too_long,
@@ -344,6 +347,8 @@ class BaseEnv(object):
         self._state_size = example_state.shape[1]
         return self._state_size
 
+    # action_size refers to output of neural network. 3 here due to 3 dimensions
+    # this is not magnitude of action
     def get_action_size(self):
         """ TODO: Support spherical actions"""
 
@@ -364,6 +369,8 @@ class BaseEnv(object):
 
         return voxel_size
 
+    # not to be confused with learning rate of neural networks.
+    # step size is wrt the environment, meaning magnitude of step
     def set_step_size(self, step_size_mm):
         """ Set a different step size (in voxels) than computed by the
         environment. This is necessary when the voxel size between training
@@ -388,35 +395,14 @@ class BaseEnv(object):
         self.min_nb_steps = int(self.min_length / step_size_mm)
 
         if self.compute_reward:
-            self.reward_function = Reward(
-                peaks=self.peaks,
-                exclude=self.exclude_mask,
-                target=self.target_mask,
-                max_nb_steps=self.max_nb_steps,
-                theta=self.theta,
-                min_nb_steps=self.min_nb_steps,
-                asymmetric=self.asymmetric,
-                alignment_weighting=self.alignment_weighting,
-                straightness_weighting=self.straightness_weighting,
-                length_weighting=self.length_weighting,
-                target_bonus_factor=self.target_bonus_factor,
-                exclude_penalty_factor=self.exclude_penalty_factor,
-                angle_penalty_factor=self.angle_penalty_factor,
-                scoring_data=self.scoring_data,
-                reference=self.reference)
+            self.reward_function.update_max_steps(self.max_nb_steps, self.min_nb_steps)
 
         self.stopping_criteria[StoppingFlags.STOPPING_LENGTH] = \
             functools.partial(is_too_long,
                               max_nb_steps=self.max_nb_steps)
 
         if self.cmc:
-            cmc_criterion = CmcStoppingCriterion(
-                self.include_mask.data,
-                self.exclude_mask.data,
-                self.affine_vox2rasmm,
-                self.step_size,
-                self.min_nb_steps)
-            self.stopping_criteria[StoppingFlags.STOPPING_MASK] = cmc_criterion
+            self.stopping_criteria[StoppingFlags.STOPPING_MASK].update_steps(self.min_nb_steps)
 
     def _normalize(self, obs):
         """Normalises the observation using the running mean and variance of

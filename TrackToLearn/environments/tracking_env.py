@@ -43,6 +43,7 @@ class TrackingEnvironment(BaseEnv):
                 streamlines, self.stopping_criteria)
         return stopping, flags
 
+    # merge with harvest? its 1 line
     def _keep(
         self,
         idx: np.ndarray,

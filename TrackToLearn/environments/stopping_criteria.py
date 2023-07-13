@@ -167,3 +167,6 @@ class CmcStoppingCriterion(object):
         not_continue_points[stop_include] = True
 
         return not_continue_points
+
+    def update_steps(self, new_min_nb_steps):
+        self.min_nb_steps = new_min_nb_steps

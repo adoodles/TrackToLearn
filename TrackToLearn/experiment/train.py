@@ -19,6 +19,7 @@ assert torch.cuda.is_available(), "Training is only possible on CUDA devices."
 class TrackToLearnTraining(TrackToLearnExperiment):
     """
     Main RL tracking experiment
+    Abstract base class for specific algorithm training i.e. td3_training.py
     """
 
     def __init__(
@@ -296,11 +297,12 @@ class TrackToLearnTraining(TrackToLearnExperiment):
         max_traj_length = env.max_nb_steps
 
         # The RL training algorithm
+        # Not implemented in base class but in child classes
         alg = self.get_alg(max_traj_length)
 
         # inserted code
         self.hyperparameters.update({'voxel_size': str(self.voxel_size)})
-        
+
         # Save hyperparameters to differentiate experiments later
         self.save_hyperparameters()
 

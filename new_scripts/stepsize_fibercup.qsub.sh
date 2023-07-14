@@ -6,7 +6,7 @@
 #$ -l gpu=true
 #$ -N TTL_train
 #$ -l gpu_type=gtx1080ti
-#$ -l h_rt=0:30:0
+#$ -l h_rt=24:00:0
 #$ -cwd
 
 source /share/apps/source_files/cuda/cuda-11.2.source
@@ -58,7 +58,8 @@ if (( $CUDA_VISIBLE_DEVICES > -1 )); then
 
 for step_size in "${stepsize[@]}"
 do
-
+    echo "Start time: $(date +"%F-%H_%M_%S")"
+    
     ID="$(date +"%F-%H_%M_%S")_${step_size//.}" 
 
     DEST_FOLDER=$EXPERIMENTS_FOLDER/$EXPERIMENT/$ID

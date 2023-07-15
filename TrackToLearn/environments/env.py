@@ -351,8 +351,9 @@ class BaseEnv(object):
     # this is not magnitude of action
     def get_action_size(self):
         """ TODO: Support spherical actions"""
+        dimension_of_output = 1
 
-        return 3
+        return 3 + dimension_of_output
 
     def get_voxel_size(self):
         """ Returns the voxel size by taking the mean value of the diagonal
@@ -377,6 +378,7 @@ class BaseEnv(object):
         and tracking envs is different.
         """
 
+        old_step_size = self.step_size
         self.step_size = convert_length_mm2vox(
             step_size_mm,
             self.affine_vox2rasmm)
@@ -393,6 +395,9 @@ class BaseEnv(object):
         # Compute maximum length
         self.max_nb_steps = int(self.max_length / step_size_mm)
         self.min_nb_steps = int(self.min_length / step_size_mm)
+
+        # Scale current length
+        self.length = self.length * (self.step_size / old_step_size)
 
         if self.compute_reward:
             self.reward_function.update_max_steps(self.max_nb_steps, self.min_nb_steps)

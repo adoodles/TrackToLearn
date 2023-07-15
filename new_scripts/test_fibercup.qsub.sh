@@ -6,7 +6,7 @@
 #$ -l gpu=true
 #$ -N TTL_train
 #$ -l gpu_type=gtx1080ti
-#$ -l h_rt=0:30:0
+#$ -l h_rt=1:0:0
 #$ -cwd
 
 source /share/apps/source_files/cuda/cuda-11.2.source

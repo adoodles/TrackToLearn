@@ -261,8 +261,12 @@ class RetrackingEnvironment(TrackingEnvironment):
         info: dict
         """
 
+        # directions should have 4 elements, 3 for coordinates and 1 for magnitude
+        magnitude = directions[-1]
+        self.set_step_size(magnitude)
+        move_direction = directions[:3]
         # Scale directions to step size
-        directions = normalize_vectors(directions) * self.step_size
+        directions = normalize_vectors(move_direction) * self.step_size
 
         # Grow streamlines one step forward
         self.streamlines[self.continue_idx, self.length,

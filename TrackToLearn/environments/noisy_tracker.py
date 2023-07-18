@@ -72,6 +72,11 @@ class NoisyTrackingEnvironment(TrackingEnvironment):
         info: dict
         """
 
+        # this method calls super(), only needs a slicing
+        magnitude = directions[-1]
+        self.set_step_size(magnitude)
+        move_directions = directions[:3]
+
         if self.fa_map is not None and self.prob > 0.:
             idx = self.streamlines[self.continue_idx,
                                    self.length-1].astype(np.int32)
@@ -81,11 +86,15 @@ class NoisyTrackingEnvironment(TrackingEnvironment):
                 self.fa_map, idx, mode='constant', order=0)
             noise = ((1. - fa) * self.prob)
         else:
-            noise = np.asarray([self.prob] * len(directions))
+            noise = np.asarray([self.prob] * len(move_directions))
 
-        directions = (
-            directions + self.rng.normal(np.zeros((3, 1)), noise).T)
-        return super().step(directions)
+        move_directions = (
+            move_directions + self.rng.normal(np.zeros((3, 1)), noise).T)
+        
+        # recreate the original dimension
+        noisy_direction = move_directions.append(magnitude)
+
+        return super().step(noisy_direction)
 
 
 class NoisyRetrackingEnvironment(RetrackingEnvironment):
@@ -137,6 +146,11 @@ class NoisyRetrackingEnvironment(RetrackingEnvironment):
         info: dict
         """
 
+        # this method calls super(), only needs a slicing
+        magnitude = directions[-1]
+        self.set_step_size(magnitude)
+        move_directions = directions[:3]
+
         if self.fa_map is not None and self.prob > 0.:
             idx = self.streamlines[self.continue_idx,
                                    self.length-1].astype(np.int32)
@@ -146,11 +160,15 @@ class NoisyRetrackingEnvironment(RetrackingEnvironment):
                 self.fa_map, idx, mode='constant', order=0)
             noise = ((1. - fa) * self.prob)
         else:
-            noise = np.asarray([self.prob] * len(directions))
+            noise = np.asarray([self.prob] * len(move_directions))
 
-        directions = (
-            directions + self.rng.normal(np.zeros((3, 1)), noise).T)
-        return super().step(directions)
+        move_directions = (
+            move_directions + self.rng.normal(np.zeros((3, 1)), noise).T)
+        
+        # recreate the original dimension
+        noisy_direction = move_directions.append(magnitude)
+
+        return super().step(noisy_direction)
 
 
 class BackwardNoisyTrackingEnvironment(BackwardTrackingEnvironment):
@@ -203,6 +221,11 @@ class BackwardNoisyTrackingEnvironment(BackwardTrackingEnvironment):
         info: dict
         """
 
+        # this method calls super(), only needs a slicing
+        magnitude = directions[-1]
+        self.set_step_size(magnitude)
+        move_directions = directions[:3]
+
         if self.fa_map is not None and self.prob > 0.:
             idx = self.streamlines[:, self.length-1].astype(np.int32)
 
@@ -215,8 +238,12 @@ class BackwardNoisyTrackingEnvironment(BackwardTrackingEnvironment):
                 self.fa_map, indices_mask, mode='constant', order=0)
             noise = ((1. - fa) * self.prob)
         else:
-            noise = np.asarray([self.prob] * len(directions))
+            noise = np.asarray([self.prob] * len(move_directions))
 
-        directions = (
-            directions + self.rng.normal(np.zeros((3, 1)), noise).T)
-        return super().step(directions)
+        move_directions = (
+            move_directions + self.rng.normal(np.zeros((3, 1)), noise).T)
+        
+        # recreate the original dimension
+        noisy_direction = move_directions.append(magnitude)
+
+        return super().step(noisy_direction)

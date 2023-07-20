@@ -377,7 +377,7 @@ class BaseEnv(object):
         environment. This is necessary when the voxel size between training
         and tracking envs is different.
         """
-
+        assert(not isinstance(step_size_mm, np.ndarray))
         old_step_size = self.step_size
         self.step_size = convert_length_mm2vox(
             step_size_mm,

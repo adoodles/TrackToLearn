@@ -74,6 +74,7 @@ class NoisyTrackingEnvironment(TrackingEnvironment):
 
         # this method calls super(), only needs a slicing
         magnitude = directions[-1]
+        print(directions.shape)
         self.set_step_size(magnitude)
         move_directions = directions[:3]
 

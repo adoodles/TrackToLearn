@@ -397,7 +397,8 @@ class BaseEnv(object):
         self.min_nb_steps = int(self.min_length / step_size_mm)
 
         # Scale current length
-        self.length = self.length * (self.step_size / old_step_size)
+        if self.length:
+            self.length = self.length * (self.step_size / old_step_size)
 
         if self.compute_reward:
             self.reward_function.update_max_steps(self.max_nb_steps, self.min_nb_steps)

@@ -168,12 +168,12 @@ class TrackingEnvironment(BaseEnv):
         """
 
         # directions should have 4 elements, 3 for coordinates and 1 for magnitude
-        magnitude = directions[-1]
+        magnitude = directions[:-1]
         print(directions.shape)
-        self.set_step_size(magnitude)
-        move_direction = directions[:3]
-        # Scale directions to step size
-        directions = normalize_vectors(move_direction) * self.step_size
+        move_directions = directions[:, :3]
+        # Scale directions to magnitude
+        move_directions = normalize_vectors(move_directions)
+        directions = move_directions * magnitude
 
         # Grow streamlines one step forward
         self.streamlines[self.continue_idx, self.length, :] = \

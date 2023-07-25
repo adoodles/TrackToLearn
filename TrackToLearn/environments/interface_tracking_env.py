@@ -33,6 +33,9 @@ class InterfaceTrackingEnvironment(TrackingEnvironment):
             Whether the episode is done
         info: dict
         """
+        # directions should have 4 elements, 3 for coordinates and 1 for magnitude
+        magnitude = directions[:-1]
+        directions = directions[:, :3]
 
         # If the streamline goes out the tracking mask at the first
         # step, flip it
@@ -53,6 +56,8 @@ class InterfaceTrackingEnvironment(TrackingEnvironment):
 
             # Flip stopping trajectories
             directions[stopping] *= -1
+
+        directions = np.concatenate((directions, magnitude[:, np.newaxis]), axis = 1)
 
         return super().step(directions)
 
@@ -83,6 +88,9 @@ class InterfaceNoisyTrackingEnvironment(NoisyTrackingEnvironment):
             Whether the episode is done
         info: dict
         """
+        # directions should have 4 elements, 3 for coordinates and 1 for magnitude
+        magnitude = directions[:-1]
+        directions = directions[:, :3]
 
         # If the streamline goes out the tracking mask at the first
         # step, flip it
@@ -103,5 +111,7 @@ class InterfaceNoisyTrackingEnvironment(NoisyTrackingEnvironment):
 
             # Flip stopping trajectories
             directions[stopping] *= -1
+
+        directions = np.concatenate((directions, magnitude[:, np.newaxis]), axis = 1)
 
         return super().step(directions)

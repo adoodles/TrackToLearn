@@ -168,7 +168,7 @@ class TrackingEnvironment(BaseEnv):
         """
 
         # directions should have 4 elements, 3 for coordinates and 1 for magnitude
-        magnitude = directions[:-1]
+        magnitude = directions[:,-1]
         print(directions.shape)
         move_directions = directions[:, :3]
         # Scale directions to magnitude

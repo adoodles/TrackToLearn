@@ -262,7 +262,7 @@ class RetrackingEnvironment(TrackingEnvironment):
         """
 
         # directions should have 4 elements, 3 for coordinates and 1 for magnitude
-        magnitude = directions[:-1]
+        magnitude = directions[:,-1]
         move_directions = directions[:, :3]
         # Scale directions to magnitude
         move_directions = normalize_vectors(move_directions)

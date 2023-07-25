@@ -73,7 +73,7 @@ class NoisyTrackingEnvironment(TrackingEnvironment):
         """
 
         # directions should have 4 elements, 3 for coordinates and 1 for magnitude
-        magnitude = directions[:-1]
+        magnitude = directions[:,-1]
         move_directions = directions[:, :3]
 
         if self.fa_map is not None and self.prob > 0.:
@@ -146,9 +146,8 @@ class NoisyRetrackingEnvironment(RetrackingEnvironment):
         """
 
         # this method calls super(), only needs a slicing
-        magnitude = directions[-1]
-        self.set_step_size(magnitude)
-        move_directions = directions[:3]
+        magnitude = directions[:,-1]
+        move_directions = directions[:, :3]
 
         if self.fa_map is not None and self.prob > 0.:
             idx = self.streamlines[self.continue_idx,
@@ -165,7 +164,7 @@ class NoisyRetrackingEnvironment(RetrackingEnvironment):
             move_directions + self.rng.normal(np.zeros((3, 1)), noise).T)
         
         # recreate the original dimension
-        noisy_direction = move_directions.append(magnitude)
+        noisy_direction = np.concatenate((move_directions, magnitude[:, np.newaxis]), axis = 1)
 
         return super().step(noisy_direction)
 
@@ -221,9 +220,8 @@ class BackwardNoisyTrackingEnvironment(BackwardTrackingEnvironment):
         """
 
         # this method calls super(), only needs a slicing
-        magnitude = directions[-1]
-        self.set_step_size(magnitude)
-        move_directions = directions[:3]
+        magnitude = directions[:,-1]
+        move_directions = directions[:, :3]
 
         if self.fa_map is not None and self.prob > 0.:
             idx = self.streamlines[:, self.length-1].astype(np.int32)
@@ -243,6 +241,6 @@ class BackwardNoisyTrackingEnvironment(BackwardTrackingEnvironment):
             move_directions + self.rng.normal(np.zeros((3, 1)), noise).T)
         
         # recreate the original dimension
-        noisy_direction = move_directions.append(magnitude)
+        noisy_direction = np.concatenate((move_directions, magnitude[:, np.newaxis]), axis = 1)
 
         return super().step(noisy_direction)

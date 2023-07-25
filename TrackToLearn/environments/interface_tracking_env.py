@@ -34,7 +34,7 @@ class InterfaceTrackingEnvironment(TrackingEnvironment):
         info: dict
         """
         # directions should have 4 elements, 3 for coordinates and 1 for magnitude
-        magnitude = directions[:-1]
+        magnitude = directions[:,-1]
         directions = directions[:, :3]
 
         # If the streamline goes out the tracking mask at the first
@@ -89,7 +89,7 @@ class InterfaceNoisyTrackingEnvironment(NoisyTrackingEnvironment):
         info: dict
         """
         # directions should have 4 elements, 3 for coordinates and 1 for magnitude
-        magnitude = directions[:-1]
+        magnitude = directions[:,-1]
         directions = directions[:, :3]
 
         # If the streamline goes out the tracking mask at the first

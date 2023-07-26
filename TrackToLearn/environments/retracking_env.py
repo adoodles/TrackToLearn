@@ -266,7 +266,8 @@ class RetrackingEnvironment(TrackingEnvironment):
         move_directions = directions[:, :3]
         # Scale directions to magnitude
         move_directions = normalize_vectors(move_directions)
-        directions = move_directions * magnitude
+        reshape_magnitude = magnitude[:, np.newaxis]
+        directions = move_directions * reshape_magnitude
 
         # Grow streamlines one step forward
         self.streamlines[self.continue_idx, self.length,

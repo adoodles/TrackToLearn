@@ -32,7 +32,7 @@ reference_file=$DATASET_FOLDER/masks/${SUBJECT_ID}_wm.nii.gz
 
 # RL params
 
-max_ep=150 # Chosen empirically
+max_ep=1000 # Chosen empirically
 log_interval=500 # Log at n steps
 lr=8.56e-6 # Learning rate 
 gamma=0.776 # Gamma for reward discounting

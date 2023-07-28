@@ -174,12 +174,13 @@ class TrackingEnvironment(BaseEnv):
         # Scale directions to magnitude
         move_directions = normalize_vectors(move_directions)
         # Normalise magnitude values
-        min_val = 0.1
-        max_val = 5
-        normalized_magnitude = ((magnitude - np.min(magnitude)) / (np.max(magnitude) - np.min(magnitude))) * (max_val - min_val) + min_val
-        print(normalized_magnitude)
-        reshape_magnitude = normalized_magnitude[:, np.newaxis]
-        directions = move_directions * reshape_magnitude
+        # min_val = 0.1
+        # max_val = 5
+        # normalized_magnitude = ((magnitude - np.min(magnitude)) / (np.max(magnitude) - np.min(magnitude))) * (max_val - min_val) + min_val
+        # print(normalized_magnitude)
+        # reshape_magnitude = normalized_magnitude[:, np.newaxis]
+        # directions = move_directions * reshape_magnitude
+        directions = move_directions * magnitude
 
         # Grow streamlines one step forward
         self.streamlines[self.continue_idx, self.length, :] = \

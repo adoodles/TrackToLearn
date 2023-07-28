@@ -1,5 +1,5 @@
 #$ -S /bin/bash
-#$ -l tmem=32G
+#$ -l tmem=64G
 
 #$ -R y
 #$ -j y

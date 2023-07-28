@@ -397,7 +397,7 @@ class BaseEnv(object):
         self.min_nb_steps = int(self.min_length / step_size_mm)
 
         # Scale current length
-        if self.length:
+        if hasattr(self, 'length'):
             self.length = self.length * (self.step_size / old_step_size)
 
         if self.compute_reward:

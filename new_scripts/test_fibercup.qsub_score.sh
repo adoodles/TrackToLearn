@@ -53,51 +53,10 @@ mkdir -p ./experiments/$EXPERIMENT
 ID=$(date +"%F-%H_%M_%S")
 
 DEST_FOLDER=$EXPERIMENTS_FOLDER/$EXPERIMENT/$ID
-BASE_FOLDER='/home/awuxingh/TrackToLearn'
+BASE_FOLDER='/home/awuxingh/new_TTL'
 
 if (( $CUDA_VISIBLE_DEVICES > -1 )); then
-
-python3 $BASE_FOLDER/TrackToLearn/trainers/td3_train.py \
-  $DEST_FOLDER \
-  $EXPERIMENT \
-  $ID \
-  ${dataset_file} \
-  ${SUBJECT_ID} \
-  ${validation_dataset_file} \
-  ${VALIDATION_SUBJECT_ID} \
-  ${reference_file} \
-  ${SCORING_DATA} \
-  --max_ep=${max_ep} \
-  --log_interval=${log_interval} \
-  --action_std=${action_std} \
-  --lr=${lr} \
-  --gamma=${gamma} \
-  --rng_seed=${rng_seed} \
-  --theta=${max_angle} \
-  --use_gpu \
-  --run_tractometer
-
-n_seeds_per_voxel=2
-min_length=20
-max_length=200
-
 valid_noise=0.1
-python3 $BASE_FOLDER/TrackToLearn/runners/ttl_validation.py $DEST_FOLDER \
-  "$EXPERIMENT" \
-  "$ID" \
-  "${validation_dataset_file}" \
-  "${VALIDATION_SUBJECT_ID}" \
-  "${reference_file}" \
-  $DEST_FOLDER/model \
-  $DEST_FOLDER/model/hyperparameters.json \
-  --prob="${valid_noise}" \
-  --npv="${n_seeds_per_voxel}" \
-  --min_length="$min_length" \
-  --max_length="$max_length" \
-  --use_gpu \
-  --fa_map="$DATASET_FOLDER"/dti/"${SUBJECT_ID}"_fa.nii.gz \
-  --remove_invalid_streamlines
-
 mkdir -p $DEST_FOLDER/scoring_"${valid_noise}"_fa
 
 python3 $BASE_FOLDER/scripts/score_tractogram.py $DEST_FOLDER/tractogram_"${EXPERIMENT}"_"${ID}"_"${VALIDATION_SUBJECT_ID}".trk \

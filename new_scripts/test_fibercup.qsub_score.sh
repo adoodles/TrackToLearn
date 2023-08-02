@@ -50,7 +50,7 @@ EXPERIMENT=fibercup
 mkdir -p ./experiments
 mkdir -p ./experiments/$EXPERIMENT
 
-ID=$(date +"%F-%H_%M_%S")
+ID="to_score"
 
 DEST_FOLDER=$EXPERIMENTS_FOLDER/$EXPERIMENT/$ID
 BASE_FOLDER='/home/awuxingh/new_TTL/TrackToLearn'

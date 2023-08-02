@@ -180,7 +180,7 @@ class TrackingEnvironment(BaseEnv):
         # print(normalized_magnitude)
         # reshape_magnitude = normalized_magnitude[:, np.newaxis]
         # directions = move_directions * reshape_magnitude
-        magnitude.reshape((-1, 1))
+        magnitude = magnitude.reshape((-1, 1))
         directions = move_directions * magnitude
 
         # Grow streamlines one step forward

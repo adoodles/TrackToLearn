@@ -75,7 +75,8 @@ python3 $BASE_FOLDER/TrackToLearn/trainers/td3_train.py \
   --rng_seed=${rng_seed} \
   --theta=${max_angle} \
   --use_gpu \
-  --run_tractometer
+  --run_tractometer \
+  --use_comet
 
 n_seeds_per_voxel=2
 min_length=20

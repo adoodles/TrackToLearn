@@ -53,7 +53,7 @@ mkdir -p ./experiments/$EXPERIMENT
 ID=$(date +"%F-%H_%M_%S")
 
 DEST_FOLDER=$EXPERIMENTS_FOLDER/$EXPERIMENT/$ID
-BASE_FOLDER='/home/awuxingh/TrackToLearn'
+BASE_FOLDER='/home/awuxingh/new_TTL/TrackToLearn'
 
 if (( $CUDA_VISIBLE_DEVICES > -1 )); then
 

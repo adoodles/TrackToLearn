@@ -154,6 +154,9 @@ class TD3(DDPG):
         # Sample replay buffer
         state, action, next_state, reward, not_done = \
             replay_buffer.sample(batch_size)
+        
+        print("Update done")
+        print("Metrics" + " reward: " + str(reward)+ " action: " + str(action))
 
         with torch.no_grad():
             # Select next action according to policy and add clipped noise
@@ -223,5 +226,6 @@ class TD3(DDPG):
                 target_param.data.copy_(
                     self.tau * param.data + (1 - self.tau) * target_param.data
                 )
-
+        print("Losses: ")
+        print(losses)
         return losses

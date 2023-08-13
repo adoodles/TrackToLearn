@@ -186,6 +186,11 @@ class TD3(DDPG):
         loss_q2 = F.mse_loss(current_Q2, target_Q)
         critic_loss = loss_q1 + loss_q2
         
+        if np.isnan(critic_loss.item()) and not np.isnan(current_Q1.mean().item()):
+            print('NaN detected')
+            with np.printoptions(threshold=np.inf):
+                print(current_Q1)
+                print(current_Q2)
         losses = {
             'actor_loss': 0.0,
             'critic_loss': critic_loss.item(),

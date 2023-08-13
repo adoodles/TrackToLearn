@@ -156,7 +156,9 @@ class TD3(DDPG):
             replay_buffer.sample(batch_size)
         
         print("Update done")
-        print("Metrics" + " reward: " + str(reward)+ " action: " + str(action))
+        print("Number of reward values:")
+        print(torch.count_nonzero(reward))
+        # print("Metrics" + " reward: " + str(reward)+ " action: " + str(action))
 
         with torch.no_grad():
             # Select next action according to policy and add clipped noise
@@ -173,6 +175,8 @@ class TD3(DDPG):
             target_Q = torch.min(target_Q1, target_Q2)
             target_Q = reward + not_done * self.gamma * target_Q
 
+        print("Target Q value:")
+        print(target_Q)
         # Get current Q estimates for s
         current_Q1, current_Q2 = self.policy.critic(
             state, action)
@@ -181,7 +185,7 @@ class TD3(DDPG):
         loss_q1 = F.mse_loss(current_Q1, target_Q)
         loss_q2 = F.mse_loss(current_Q2, target_Q)
         critic_loss = loss_q1 + loss_q2
-
+        
         losses = {
             'actor_loss': 0.0,
             'critic_loss': critic_loss.item(),

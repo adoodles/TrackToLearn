@@ -99,4 +99,5 @@ do
       --use_gpu \
       --fa_map="$DATASET_FOLDER"/dti/"${SUBJECT_ID}"_fa.nii.gz \
       --remove_invalid_streamlines
+done
 fi

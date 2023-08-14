@@ -176,10 +176,14 @@ class TrackingEnvironment(BaseEnv):
         # Normalise magnitude values
         min_val = 0.5
         max_val = 2.0
-        normalized_magnitude = ((magnitude - np.min(magnitude)) / (np.max(magnitude) - np.min(magnitude))) * (max_val - min_val) + min_val
-        print("Largest mag:" + str(np.max(magnitude)))
-        print("Smallest mag:" + str(np.min(magnitude)))
-        print("Mag array:" + str(magnitude - np.min(magnitude)))
+        range = np.max(magnitude) - np.min(magnitude)
+        if range != 0 or magnitude.shape > 1:
+            normalized_magnitude = ((magnitude - np.min(magnitude)) / (np.max(magnitude) - np.min(magnitude))) * (max_val - min_val) + min_val
+        else:
+            normalized_magnitude = magnitude
+        # print("Largest mag:" + str(np.max(magnitude)))
+        # print("Smallest mag:" + str(np.min(magnitude)))
+        # print("Mag array:" + str(magnitude - np.min(magnitude)))
         reshape_magnitude = normalized_magnitude.reshape((-1, 1))
         directions = move_directions * reshape_magnitude
         # magnitude = magnitude.reshape((-1, 1))

@@ -177,7 +177,8 @@ class TrackingEnvironment(BaseEnv):
         min_val = 0.5
         max_val = 2.0
         range = np.max(magnitude) - np.min(magnitude)
-        if range != 0 or magnitude.shape > 1:
+        if range != 0 or magnitude.shape[0] > 1:
+            print("Shape:" + str(magnitude.shape))
             normalized_magnitude = ((magnitude - np.min(magnitude)) / (np.max(magnitude) - np.min(magnitude))) * (max_val - min_val) + min_val
         else:
             normalized_magnitude = magnitude

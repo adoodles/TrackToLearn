@@ -145,8 +145,6 @@ class Reward(object):
         """
 
         N = len(streamlines)
-        print("Reward length: " + str(N))
-        print("Magnitude length: " + str(len(magnitude)))
 
         # length = reward_length(streamlines, self.max_nb_steps) \
         #     if self.length_weighting > 0 else np.zeros((N), dtype=np.uint8)
@@ -158,6 +156,10 @@ class Reward(object):
             np.zeros((N), dtype=np.uint8)
         normalized_alignment_reward = np.linalg.norm(alignment)
         magnitude_reward = normalized_alignment_reward * magnitude
+
+        print("Reward shape: " + str(alignment.shape))
+        print("Norm_align shape: " + str(normalized_alignment_reward.shape))
+        print("Magnitude shape: " + str(magnitude_reward.shape))
 
         weights = np.asarray([
             self.alignment_weighting, self.straightness_weighting, 0.5])

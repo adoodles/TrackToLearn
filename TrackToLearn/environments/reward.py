@@ -145,6 +145,8 @@ class Reward(object):
         """
 
         N = len(streamlines)
+        print("Reward length: " + str(N))
+        print("Magnitude length: " + str(len(magnitude)))
 
         # length = reward_length(streamlines, self.max_nb_steps) \
         #     if self.length_weighting > 0 else np.zeros((N), dtype=np.uint8)

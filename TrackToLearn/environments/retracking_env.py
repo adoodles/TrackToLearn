@@ -306,7 +306,8 @@ class RetrackingEnvironment(TrackingEnvironment):
             # Reward streamline step
             reward = self.reward_function(
                 self.streamlines[self.continue_idx, :self.length, :],
-                self.dones[self.continue_idx])
+                self.dones[self.continue_idx],
+                magnitude)
 
         # If a streamline is still being retracked
         if np.any(is_still_initializing):

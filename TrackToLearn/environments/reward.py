@@ -126,7 +126,7 @@ class Reward(object):
         #         ROIs=ROIs,
         #         compute_ic_ib=False)
 
-    def __call__(self, streamlines, dones):
+    def __call__(self, streamlines, dones, magnitude):
         """
         Compute rewards for the last step of the streamlines
         Each reward component is weighted according to a
@@ -146,19 +146,22 @@ class Reward(object):
 
         N = len(streamlines)
 
-        length = reward_length(streamlines, self.max_nb_steps) \
-            if self.length_weighting > 0. else np.zeros((N), dtype=np.uint8)
+        # length = reward_length(streamlines, self.max_nb_steps) \
+        #     if self.length_weighting > 0 else np.zeros((N), dtype=np.uint8)
         alignment = reward_alignment_with_peaks(
             streamlines, self.peaks.data, self.asymmetric) \
             if self.alignment_weighting > 0 else np.zeros((N), dtype=np.uint8)
         straightness = reward_straightness(streamlines) \
             if self.straightness_weighting > 0 else \
             np.zeros((N), dtype=np.uint8)
+        normalized_alignment_reward = np.linalg.norm(alignment)
+        magnitude_reward = normalized_alignment_reward * magnitude
 
         weights = np.asarray([
-            self.alignment_weighting, self.straightness_weighting,
-            self.length_weighting])
-        params = np.stack((alignment, straightness, length))
+            self.alignment_weighting, self.straightness_weighting, 0.5])
+            # , self.length_weighting])
+        params = np.stack((alignment, straightness, magnitude_reward))
+                           #, length))
         rewards = np.dot(params.T, weights)
 
         # Penalize sharp turns

@@ -154,9 +154,14 @@ class Reward(object):
         straightness = reward_straightness(streamlines) \
             if self.straightness_weighting > 0 else \
             np.zeros((N), dtype=np.uint8)
-        normalized_alignment_reward = np.linalg.norm(alignment)
-        magnitude_reward = normalized_alignment_reward * magnitude
-
+        # unit normalization of alignment reward
+        range = np.max(alignment) - np.min(alignment)
+        if range != 0 and N > 1:
+            normalized_alignment_reward = ((alignment - np.min(magnitude)) / (range))
+        else:
+            normalized_alignment_reward = alignment
+        compressed_magnitude = magnitude.flatten()
+        magnitude_reward = normalized_alignment_reward * compressed_magnitude
         print("Reward shape: " + str(alignment.shape))
         print("Norm_align shape: " + str(normalized_alignment_reward.shape))
         print("Magnitude shape: " + str(magnitude_reward.shape))

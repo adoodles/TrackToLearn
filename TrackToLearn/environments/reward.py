@@ -162,9 +162,9 @@ class Reward(object):
             normalized_alignment_reward = alignment
         compressed_magnitude = magnitude.flatten()
         magnitude_reward = normalized_alignment_reward * compressed_magnitude
-        print("Reward shape: " + str(alignment.shape))
-        print("Norm_align shape: " + str(normalized_alignment_reward.shape))
-        print("Magnitude shape: " + str(magnitude_reward.shape))
+        # print("Reward shape: " + str(alignment.shape))
+        # print("Norm_align shape: " + str(normalized_alignment_reward.shape))
+        # print("Magnitude shape: " + str(magnitude_reward.shape))
 
         weights = np.asarray([
             self.alignment_weighting, self.straightness_weighting, 0.5])
@@ -425,6 +425,9 @@ def reward_alignment_with_peaks(
 
     X, Y, Z, P = peaks.shape
     idx = streamlines[:, -2].astype(np.int32)
+    peak_counts = np.count_nonzero(v, axis=-1)
+    print('Peak counts at each streamline: ')
+    print(peak_counts)
 
     # Get peaks at streamline end
     v = interpolate_volume_at_coordinates(

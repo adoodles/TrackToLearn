@@ -169,11 +169,11 @@ class Reward(object):
         # reward smaller steps in complex region?
         crossing_region = np.where(peak_counts > 3, 1, 0)
         # unit normalization of magnitude
-        range = np.max(magnitude) - np.min(magnitude)
+        range = np.max(compressed_magnitude) - np.min(compressed_magnitude)
         if range != 0 and N > 1:
-            normalized_magnitude = ((magnitude - np.min(magnitude)) / (range))
+            normalized_magnitude = ((compressed_magnitude - np.min(compressed_magnitude)) / (range))
         else:
-            normalized_magnitude = np.ones_like(magnitude)
+            normalized_magnitude = np.ones_like(compressed_magnitude)
         smaller_steps = np.where(normalized_magnitude < 0.5, 1, 0)
         region_reward = crossing_region * smaller_steps
        

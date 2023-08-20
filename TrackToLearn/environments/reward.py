@@ -425,13 +425,15 @@ def reward_alignment_with_peaks(
 
     X, Y, Z, P = peaks.shape
     idx = streamlines[:, -2].astype(np.int32)
-    peak_counts = np.count_nonzero(v, axis=-1)
-    print('Peak counts at each streamline: ')
-    print(peak_counts)
 
     # Get peaks at streamline end
     v = interpolate_volume_at_coordinates(
         peaks, idx, mode='nearest', order=0)
+    peak_counts = np.count_nonzero(v, axis=-1)
+    print('Peak counts at each streamline: ')
+    print(peak_counts)
+    print('How does v look like:')
+    print(v[:10])
 
     # Presume 5 peaks (per hemisphere if asymmetric)
     if asymmetric:

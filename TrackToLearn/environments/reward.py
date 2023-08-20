@@ -148,7 +148,7 @@ class Reward(object):
 
         # length = reward_length(streamlines, self.max_nb_steps) \
         #     if self.length_weighting > 0 else np.zeros((N), dtype=np.uint8)
-        alignment = reward_alignment_with_peaks(
+        alignment, peak_counts = reward_alignment_with_peaks(
             streamlines, self.peaks.data, self.asymmetric) \
             if self.alignment_weighting > 0 else np.zeros((N), dtype=np.uint8)
         straightness = reward_straightness(streamlines) \
@@ -157,7 +157,7 @@ class Reward(object):
         # unit normalization of alignment reward
         range = np.max(alignment) - np.min(alignment)
         if range != 0 and N > 1:
-            normalized_alignment_reward = ((alignment - np.min(magnitude)) / (range))
+            normalized_alignment_reward = ((alignment - np.min(alignment)) / (range))
         else:
             normalized_alignment_reward = alignment
         compressed_magnitude = magnitude.flatten()
@@ -166,10 +166,22 @@ class Reward(object):
         # print("Norm_align shape: " + str(normalized_alignment_reward.shape))
         # print("Magnitude shape: " + str(magnitude_reward.shape))
 
+        # reward smaller steps in complex region?
+        crossing_region = np.where(peak_counts > 3, 1, 0)
+        # unit normalization of magnitude
+        range = np.max(magnitude) - np.min(magnitude)
+        if range != 0 and N > 1:
+            normalized_magnitude = ((magnitude - np.min(magnitude)) / (range))
+        else:
+            normalized_magnitude = np.ones_like(magnitude)
+        smaller_steps = np.where(normalized_magnitude < 0.5, 1, 0)
+        region_reward = crossing_region * smaller_steps
+       
+
         weights = np.asarray([
-            self.alignment_weighting, self.straightness_weighting, 0.5])
+            self.alignment_weighting, self.straightness_weighting, 0.5, 0.25])
             # , self.length_weighting])
-        params = np.stack((alignment, straightness, magnitude_reward))
+        params = np.stack((alignment, straightness, magnitude_reward, region_reward))
                            #, length))
         rewards = np.dot(params.T, weights)
 
@@ -432,8 +444,6 @@ def reward_alignment_with_peaks(
     peak_counts = np.count_nonzero(v, axis=-1)
     print('Peak counts at each streamline: ')
     print(peak_counts)
-    print('How does v look like:')
-    print(v[:10])
 
     # Presume 5 peaks (per hemisphere if asymmetric)
     if asymmetric:
@@ -489,7 +499,7 @@ def reward_alignment_with_peaks(
     # Penalize angle with last step
     rewards *= factors
 
-    return rewards
+    return rewards, peak_counts
 
 
 def reward_straightness(streamlines):

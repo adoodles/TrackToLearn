@@ -31,7 +31,7 @@ def main():
 
     DATASET_FOLDER='/home/awuxingh/data/fibercup'
 
-    ref_anat_filename = DATASET_FOLDER + "/fibercup/dwi/fibercup_b0_dwi.nii.gz"
+    ref_anat_filename = DATASET_FOLDER + "/dwi/fibercup_b0_dwi.nii.gz"
     ref_anatomy = nib.load(ref_anat_filename)
 
     trk_filename = tractogram

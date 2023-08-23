@@ -38,12 +38,12 @@ lr=8.56e-6 # Learning rate
 gamma=0.776 # Gamma for reward discounting
 rng_seed=4033 # Seed for general randomness
 
-# TD3 parameters
-action_std=0.334 # STD deviation for action
+# SAC parameters
+alpha=0.15
 
 # Env parameters
-n_seeds_per_voxel=2 # Seed per voxel
-max_angle=60 # Maximum angle for streamline curvature
+n_seeds_per_voxel=10 # Seed per voxel
+max_angle=30 # Maximum angle for streamline curvature
 
 EXPERIMENT=fibercup
 
@@ -69,11 +69,12 @@ python3 $BASE_FOLDER/TrackToLearn/trainers/sac_train.py \
   ${SCORING_DATA} \
   --max_ep=${max_ep} \
   --log_interval=${log_interval} \
-  --action_std=${action_std} \
+  --alpha=${alpha} \
   --lr=${lr} \
   --gamma=${gamma} \
   --rng_seed=${rng_seed} \
   --theta=${max_angle} \
+  --npv=${n_seeds_per_voxel} \
   --use_gpu \
   --run_tractometer \
   --use_comet

@@ -174,8 +174,9 @@ class Reward(object):
             normalized_magnitude = ((compressed_magnitude - np.min(compressed_magnitude)) / (range))
         else:
             normalized_magnitude = np.ones_like(compressed_magnitude)
-        smaller_steps = np.where(normalized_magnitude < 0.5, 1, 0)
-        region_reward = crossing_region * smaller_steps
+        # smaller_steps = np.where(normalized_magnitude < 0.5, 1, 0)
+        larger_steps = np.where(normalized_magnitude > 0.5, 1, 0)
+        region_reward = crossing_region * larger_steps
        
 
         weights = np.asarray([

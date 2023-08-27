@@ -151,6 +151,11 @@ def add_reward_args(parser):
                         'mask')
     parser.add_argument('--angle_penalty_factor', default=0, type=float,
                         help='Penalty for looping or too-curvy streamlines')
+    parser.add_argument('--magnitude_weighting', default=0.5, type=float,
+                        help='Magnitude weighting for reward')
+    parser.add_argument('--region_weighting', default=0.25, type=float,
+                        help='Region weighting for reward')
+
 
 
 def add_model_args(parser):

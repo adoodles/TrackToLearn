@@ -104,6 +104,8 @@ class BaseEnv(object):
         # Reward parameters
         self.alignment_weighting = env_dto['alignment_weighting']
         self.straightness_weighting = env_dto['straightness_weighting']
+        self.magnitude_weighting = env_dto['magnitude_weighting']
+        self.region_weighting = env_dto['region_weighting']
         self.length_weighting = env_dto['length_weighting']
         self.target_bonus_factor = env_dto['target_bonus_factor']
         self.exclude_penalty_factor = env_dto['exclude_penalty_factor']
@@ -142,6 +144,8 @@ class BaseEnv(object):
                 asymmetric=self.asymmetric,
                 alignment_weighting=self.alignment_weighting,
                 straightness_weighting=self.straightness_weighting,
+                magnitude_weighting=self.magnitude_weighting,
+                region_weighting=self.region_weighting,
                 length_weighting=self.length_weighting,
                 target_bonus_factor=self.target_bonus_factor,
                 exclude_penalty_factor=self.exclude_penalty_factor,

@@ -32,6 +32,8 @@ class Reward(object):
         asymmetric: bool = False,
         alignment_weighting: float = 1.0,
         straightness_weighting: float = 0.0,
+        magnitude_weighting: float = 0.5,
+        region_weighting: float = 0.25,
         length_weighting: float = 0.0,
         target_bonus_factor: float = 0.0,
         exclude_penalty_factor: float = 0.0,
@@ -84,6 +86,8 @@ class Reward(object):
         self.asymmetric = asymmetric
         self.alignment_weighting = alignment_weighting
         self.straightness_weighting = straightness_weighting
+        self.magnitude_weighting = magnitude_weighting
+        self.region_weighting = region_weighting
         self.length_weighting = length_weighting
         self.target_bonus_factor = target_bonus_factor
         self.exclude_penalty_factor = exclude_penalty_factor
@@ -180,7 +184,8 @@ class Reward(object):
        
 
         weights = np.asarray([
-            self.alignment_weighting, self.straightness_weighting, 0.5, 0.25])
+            self.alignment_weighting, self.straightness_weighting, self.magnitude_weighting
+            , self.region_weighting])
             # , self.length_weighting])
         params = np.stack((alignment, straightness, magnitude_reward, region_reward))
                            #, length))

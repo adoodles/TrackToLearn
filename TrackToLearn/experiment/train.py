@@ -67,6 +67,8 @@ class TrackToLearnTraining(TrackToLearnExperiment):
         self.alignment_weighting = train_dto['alignment_weighting']
         self.straightness_weighting = train_dto['straightness_weighting']
         self.length_weighting = train_dto['length_weighting']
+        self.magnitude_weighting = train_dto['magnitude_weighting']
+        self.region_weighting = train_dto['region_weighting']
         self.target_bonus_factor = train_dto['target_bonus_factor']
         self.exclude_penalty_factor = train_dto['exclude_penalty_factor']
         self.angle_penalty_factor = train_dto['angle_penalty_factor']

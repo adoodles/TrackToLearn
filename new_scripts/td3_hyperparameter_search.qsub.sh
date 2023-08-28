@@ -1,0 +1,77 @@
+#$ -S /bin/bash
+#$ -l tmem=15G
+
+#$ -R y
+#$ -j y
+#$ -l gpu=true
+#$ -N TTL_train
+#$ -l gpu_type=gtx1080ti
+#$ -l h_rt=24:00:0
+#$ -cwd
+
+source /share/apps/source_files/cuda/cuda-11.2.source
+source /share/apps/source_files/python/python-3.8.5.source
+nvidia-smi
+
+# This should point to your dataset folder
+DATASET_FOLDER='/home/awuxingh/data/fibercup'
+
+# BELOW SOME PARAMETERS THAT DEPEND ON MY FILE STRUCTURE
+# YOU CAN CHANGE ANYTHING AS YOU WISH
+
+# Should be relatively stable
+VALIDATION_SUBJECT_ID=fibercup
+SUBJECT_ID=fibercup
+EXPERIMENTS_FOLDER=./experiments
+SCORING_DATA=${DATASET_FOLDER}/scoring_data
+
+# Data params
+dataset_file=$DATASET_FOLDER/${SUBJECT_ID}.hdf5
+validation_dataset_file=$DATASET_FOLDER/${VALIDATION_SUBJECT_ID}.hdf5
+reference_file=$DATASET_FOLDER/masks/${SUBJECT_ID}_wm.nii.gz
+
+# RL params
+
+max_ep=1000 # Chosen empirically
+log_interval=500 # Log at n steps
+lr=8.56e-6 # Learning rate 
+gamma=0.776 # Gamma for reward discounting
+rng_seed=4033 # Seed for general randomness
+
+# TD3 parameters
+action_std=0.334 # STD deviation for action
+
+# Env parameters
+n_seeds_per_voxel=2 # Seed per voxel
+max_angle=60 # Maximum angle for streamline curvature
+
+EXPERIMENT=fibercup
+
+mkdir -p ./experiments
+mkdir -p ./experiments/$EXPERIMENT
+
+ID=$(date +"%F-%H_%M_%S")
+
+DEST_FOLDER=$EXPERIMENTS_FOLDER/$EXPERIMENT/$ID
+BASE_FOLDER='/home/awuxingh/new_TTL/TrackToLearn'
+
+if (( $CUDA_VISIBLE_DEVICES > -1 )); then
+
+python3 $BASE_FOLDER/TrackToLearn/searchers/td3_searcher.py \
+  $DEST_FOLDER \
+  $EXPERIMENT \
+  $ID \
+  ${dataset_file} \
+  ${SUBJECT_ID} \
+  ${validation_dataset_file} \
+  ${VALIDATION_SUBJECT_ID} \
+  ${reference_file} \
+  ${SCORING_DATA} \
+  --max_ep=${max_ep} \
+  --log_interval=${log_interval} \
+  --rng_seed=${rng_seed} \
+  --theta=${max_angle} \
+  --use_gpu \
+  --run_tractometer \
+  --use_comet
+fi

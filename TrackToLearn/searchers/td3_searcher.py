@@ -23,15 +23,21 @@ def main():
 
         # Declare your hyperparameters in the Vizier-inspired format:
         "parameters": {
-            "lr": {
+            # "lr": {
+            #     "type": "discrete",
+            #     "values": [5e-5, 1e-5, 5e-4, 1e-4, 1e-3, 5e-3]},
+            # "gamma": {
+            #     "type": "discrete",
+            #     "values": [0.5, 0.75, 0.85, 0.90, 0.95, 0.99]},
+            # "action_std": {
+            #     "type": "discrete",
+            #     "values": [0.20, 0.25, 0.30, 0.35, 0.40]},
+            "magnitude_weighting": {
                 "type": "discrete",
-                "values": [5e-5, 1e-5, 5e-4, 1e-4, 1e-3, 5e-3]},
-            "gamma": {
+                "values": [0.25, 0.5, 0.75]},
+            "region_weighting": {
                 "type": "discrete",
-                "values": [0.5, 0.75, 0.85, 0.90, 0.95, 0.99]},
-            "action_std": {
-                "type": "discrete",
-                "values": [0.20, 0.25, 0.30, 0.35, 0.40]},
+                "values": [0.25, 0.5, 0.75]},
         },
 
         # Declare what we will be optimizing, and how:
@@ -51,15 +57,19 @@ def main():
         experiment.parse_args = False
         experiment.disabled = not args.use_comet
 
-        lr = experiment.get_parameter("lr")
-        gamma = experiment.get_parameter("gamma")
-        action_std = experiment.get_parameter("action_std")
+        # lr = experiment.get_parameter("lr")
+        # gamma = experiment.get_parameter("gamma")
+        # action_std = experiment.get_parameter("action_std")
+        mag_weight = experiment.get_parameter("magnitude_weighting")
+        region_weight = experiment.get_parameter("region_weighting")
 
         arguments = vars(args)
         arguments.update({
-            'lr': lr,
-            'gamma': gamma,
-            'action_std': action_std
+            # 'lr': lr,
+            # 'gamma': gamma,
+            # 'action_std': action_std
+            'magnitude_weighting': mag_weight,
+            "region_weighting": region_weight
         })
 
         td3_experiment = TD3TrackToLearnTraining(

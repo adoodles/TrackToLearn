@@ -32,17 +32,17 @@ reference_file=$DATASET_FOLDER/masks/${SUBJECT_ID}_wm.nii.gz
 
 # RL params
 
-max_ep=150 # Chosen empirically
-log_interval=500 # Log at n steps
-lr=8.56e-6 # Learning rate 
-gamma=0.776 # Gamma for reward discounting
+max_ep=1000 # Chosen empirically
+log_interval=50 # Log at n steps
+lr=0.00001 # Learning rate 
+gamma=0.75 # Gamma for reward discounting
 rng_seed=4033 # Seed for general randomness
 
 # TD3 parameters
-action_std=0.334 # STD deviation for action
+action_std=0.25 # STD deviation for action
 
 # Env parameters
-n_seeds_per_voxel=2 # Seed per voxel
+n_seeds_per_voxel=10 # Seed per voxel
 max_angle=60 # Maximum angle for streamline curvature
 
 EXPERIMENT=fibercup

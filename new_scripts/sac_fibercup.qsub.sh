@@ -40,7 +40,7 @@ alpha=0.15
 rng_seed=4033 # Seed for general randomness
 
 # Env parameters
-n_seeds_per_voxel=10 # Seed per voxel
+npv=10 # Seed per voxel
 max_angle=60 # Maximum angle for streamline curvature
 
 EXPERIMENT=fibercup

@@ -32,16 +32,18 @@ reference_file=$DATASET_FOLDER/masks/${SUBJECT_ID}_wm.nii.gz
 
 # RL params
 
-max_ep=80 # Chosen empirically
+max_ep=150 # Chosen empirically
 log_interval=10 # Log at n steps
-lr=4.35e-04 # Learning rate 
-gamma=0.9 # Gamma for reward discounting
-alpha=0.087
+lr=9.87e-06 # Learning rate 
+gamma=0.80 # Gamma for reward discounting
 rng_seed=4033 # Seed for general randomness
 
+# TD3 parameters
+action_std=0.32 # STD deviation for action
+
 # Env parameters
-npv=10 # Seed per voxel
-max_angle=30 # Maximum angle for streamline curvature
+n_seeds_per_voxel=10 # Seed per voxel
+max_angle=60 # Maximum angle for streamline curvature
 
 EXPERIMENT=fibercup
 
@@ -55,7 +57,7 @@ BASE_FOLDER='/home/awuxingh/new_TTL/TrackToLearn'
 
 if (( $CUDA_VISIBLE_DEVICES > -1 )); then
 
-python3 $BASE_FOLDER/TrackToLearn/trainers/sac_train.py \
+python3 $BASE_FOLDER/TrackToLearn/trainers/td3_train.py \
   $DEST_FOLDER \
   $EXPERIMENT \
   $ID \
@@ -67,12 +69,11 @@ python3 $BASE_FOLDER/TrackToLearn/trainers/sac_train.py \
   ${SCORING_DATA} \
   --max_ep=${max_ep} \
   --log_interval=${log_interval} \
+  --action_std=${action_std} \
   --lr=${lr} \
   --gamma=${gamma} \
-  --alpha=${alpha} \
   --rng_seed=${rng_seed} \
   --theta=${max_angle} \
-  --npv=${npv} \
   --use_gpu \
   --run_tractometer \
   --use_comet

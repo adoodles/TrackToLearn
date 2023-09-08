@@ -6,7 +6,7 @@
 #$ -l gpu=true
 #$ -N TTL_train
 #$ -l gpu_type=gtx1080ti
-#$ -l h_rt=24:00:0
+#$ -l h_rt=24:0:0
 #$ -cwd
 
 source /share/apps/source_files/cuda/cuda-11.2.source
@@ -32,18 +32,18 @@ reference_file=$DATASET_FOLDER/masks/${SUBJECT_ID}_wm.nii.gz
 
 # RL params
 
-max_ep=80 # Chosen empirically
+max_ep=150 # Chosen empirically
 log_interval=10 # Log at n steps
-lr=4.35e-4 # Learning rate 
-gamma=0.9 # Gamma for reward discounting
+lr=9.87e-6 # Learning rate 
+gamma=0.80 # Gamma for reward discounting
 rng_seed=4033 # Seed for general randomness
 
-# SAC parameters
-alpha=0.087
+# TD3 parameters
+action_std=0.32 # STD deviation for action
 
 # Env parameters
 n_seeds_per_voxel=10 # Seed per voxel
-max_angle=30 # Maximum angle for streamline curvature
+max_angle=60 # Maximum angle for streamline curvature
 
 EXPERIMENT=fibercup
 
@@ -53,11 +53,11 @@ mkdir -p ./experiments/$EXPERIMENT
 ID=$(date +"%F-%H_%M_%S")
 
 DEST_FOLDER=$EXPERIMENTS_FOLDER/$EXPERIMENT/$ID
-BASE_FOLDER='/home/awuxingh/new_TTL/TrackToLearn'
+BASE_FOLDER='/home/awuxingh/TrackToLearn'
 
 if (( $CUDA_VISIBLE_DEVICES > -1 )); then
 
-python3 $BASE_FOLDER/TrackToLearn/trainers/sac_train.py \
+python3 $BASE_FOLDER/TrackToLearn/trainers/td3_train.py \
   $DEST_FOLDER \
   $EXPERIMENT \
   $ID \
@@ -69,15 +69,13 @@ python3 $BASE_FOLDER/TrackToLearn/trainers/sac_train.py \
   ${SCORING_DATA} \
   --max_ep=${max_ep} \
   --log_interval=${log_interval} \
-  --alpha=${alpha} \
+  --action_std=${action_std} \
   --lr=${lr} \
   --gamma=${gamma} \
   --rng_seed=${rng_seed} \
   --theta=${max_angle} \
-  --npv=${n_seeds_per_voxel} \
   --use_gpu \
-  --run_tractometer \
-  --use_comet
+  --run_tractometer
 
 n_seeds_per_voxel=2
 min_length=20
@@ -111,4 +109,5 @@ python3 $BASE_FOLDER/scripts/score_tractogram.py $DEST_FOLDER/tractogram_"${EXPE
   --save_full_nc \
   --save_ib \
   --save_vb -f -v
+
 fi

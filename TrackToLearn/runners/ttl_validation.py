@@ -82,6 +82,8 @@ class TrackToLearnValidation(TrackToLearnExperiment):
             self.alignment_weighting = hyperparams['alignment_weighting']
             self.straightness_weighting = hyperparams['straightness_weighting']
             self.length_weighting = hyperparams['length_weighting']
+            self.magnitude_weighting = hyperparams['magnitude_weighting']
+            self.region_weighting = hyperparams['region_weighting']
             self.target_bonus_factor = hyperparams['target_bonus_factor']
             self.exclude_penalty_factor = hyperparams['exclude_penalty_factor']
             self.angle_penalty_factor = hyperparams['angle_penalty_factor']

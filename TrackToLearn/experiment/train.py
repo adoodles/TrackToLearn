@@ -136,6 +136,8 @@ class TrackToLearnTraining(TrackToLearnExperiment):
             'alignment_weighting': self.alignment_weighting,
             'straightness_weighting': self.straightness_weighting,
             'length_weighting': self.length_weighting,
+            'magnitude_weighting': self.magnitude_weighting,
+            'region_weighting': self.region_weighting,
             'target_bonus_factor': self.target_bonus_factor,
             'exclude_penalty_factor': self.exclude_penalty_factor,
             'angle_penalty_factor': self.angle_penalty_factor,

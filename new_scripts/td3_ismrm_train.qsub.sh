@@ -33,7 +33,7 @@ reference_file=$DATASET_FOLDER/masks/${SUBJECT_ID}_wm.nii.gz
 # RL params
 
 max_ep=150 # Chosen empirically
-log_interval=50 # Log at n steps
+log_interval=10 # Log at n steps
 lr=8.56e-6 # Learning rate 
 gamma=0.776 # Gamma for reward discounting
 rng_seed=4033 # Seed for general randomness

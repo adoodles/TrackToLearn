@@ -184,8 +184,8 @@ class Reward(object):
        
 
         weights = np.asarray([
-            self.alignment_weighting, self.straightness_weighting, 0, 0])
-            #, self.magnitude_weighting
+            self.alignment_weighting, self.straightness_weighting
+            , self.magnitude_weighting, 0])
             #, self.region_weighting])
             # , self.length_weighting])
         params = np.stack((alignment, straightness, magnitude_reward, region_reward))

@@ -179,14 +179,14 @@ class Reward(object):
         else:
             normalized_magnitude = np.ones_like(compressed_magnitude)
         smaller_steps = np.where(normalized_magnitude < 0.5, 1, 0)
-        # larger_steps = np.where(normalized_magnitude > 0.5, 1, 0)
-        region_reward = crossing_region * smaller_steps
+        larger_steps = np.where(normalized_magnitude > 0.5, 1, 0)
+        region_reward = crossing_region * larger_steps
        
 
         weights = np.asarray([
             self.alignment_weighting, self.straightness_weighting
-            , self.magnitude_weighting, 0])
-            #, self.region_weighting])
+            , self.magnitude_weighting
+            , self.region_weighting])
             # , self.length_weighting])
         params = np.stack((alignment, straightness, magnitude_reward, region_reward))
                            #, length))

@@ -58,7 +58,7 @@ do
   # Data params
   dataset_file=$DATASET_FOLDER/${res_train}.hdf5
   validation_dataset_file=$DATASET_FOLDER/${res_train}.hdf5
-  reference_file=$DATASET_FOLDER/masks/${SUBJECT_ID}_wm.nii.gz
+  reference_file=$DATASET_FOLDER/masks/fibercup_wm.nii.gz
 
   python3 $BASE_FOLDER/TrackToLearn/trainers/td3_train.py \
     $DEST_FOLDER \

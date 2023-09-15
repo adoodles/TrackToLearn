@@ -55,11 +55,13 @@ for res_train in "${RESOLUTION[@]}"
 do 
   # This should point to your dataset folder
   DATASET_FOLDER="/home/awuxingh/data/${res_train}"
+  VALIDATION_SUBJECT_ID=$res_train
+  SUBJECT_ID=$res_train
 
   # Data params
   dataset_file=$DATASET_FOLDER/${res_train}.hdf5
   validation_dataset_file=$DATASET_FOLDER/${res_train}.hdf5
-  reference_file=$DATASET_FOLDER/masks/${SUBJECT_ID}_wm.nii.gz
+  reference_file=$DATASET_FOLDER/masks/fibercup_wm.nii.gz
 
   python3 $BASE_FOLDER/TrackToLearn/trainers/sac_train.py \
     $DEST_FOLDER \

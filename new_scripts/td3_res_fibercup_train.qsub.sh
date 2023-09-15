@@ -14,10 +14,8 @@ source /share/apps/source_files/python/python-3.8.5.source
 nvidia-smi
 
 # Should be relatively stable
-VALIDATION_SUBJECT_ID=fibercup
-SUBJECT_ID=fibercup
 EXPERIMENTS_FOLDER=./experiments
-SCORING_DATA=${DATASET_FOLDER}/scoring_data
+SCORING_DATA=/home/awuxingh/data/fibercup/scoring_data
 
 # BELOW SOME PARAMETERS THAT DEPEND ON MY FILE STRUCTURE
 # YOU CAN CHANGE ANYTHING AS YOU WISH
@@ -54,6 +52,8 @@ for res_train in "${RESOLUTION[@]}"
 do 
   # This should point to your dataset folder
   DATASET_FOLDER="/home/awuxingh/data/${res_train}"
+  VALIDATION_SUBJECT_ID=$res_train
+  SUBJECT_ID=$res_train
 
   # Data params
   dataset_file=$DATASET_FOLDER/${res_train}.hdf5

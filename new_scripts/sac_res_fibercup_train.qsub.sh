@@ -20,7 +20,7 @@ nvidia-smi
 VALIDATION_SUBJECT_ID=fibercup
 SUBJECT_ID=fibercup
 EXPERIMENTS_FOLDER=./experiments
-SCORING_DATA=${DATASET_FOLDER}/scoring_data
+SCORING_DATA=/home/awuxingh/data/fibercup/scoring_data
 
 
 # RL params

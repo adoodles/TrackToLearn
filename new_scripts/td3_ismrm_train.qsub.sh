@@ -42,7 +42,7 @@ rng_seed=4033 # Seed for general randomness
 action_std=0.334 # STD deviation for action
 
 # Env parameters
-n_seeds_per_voxel=10 # Seed per voxel
+n_seeds_per_voxel=2 # Seed per voxel
 max_angle=60 # Maximum angle for streamline curvature
 
 EXPERIMENT=ismrm2015
@@ -78,7 +78,7 @@ python3 $BASE_FOLDER/TrackToLearn/trainers/td3_train.py \
   --run_tractometer \
   --use_comet
 
-n_seeds_per_voxel=2
+n_seeds_per_voxel=7
 min_length=20
 max_length=200
 

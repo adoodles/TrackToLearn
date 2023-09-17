@@ -77,7 +77,7 @@ python3 $BASE_FOLDER/TrackToLearn/trainers/sac_train.py \
   --run_tractometer \
   --use_comet
 
-n_seeds_per_voxel=2
+n_seeds_per_voxel=33
 min_length=20
 max_length=200
 

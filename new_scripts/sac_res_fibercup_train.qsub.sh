@@ -46,7 +46,6 @@ mkdir -p ./experiments/$EXPERIMENT
 
 ID=$(date +"%F-%H_%M_%S")
 
-DEST_FOLDER=$EXPERIMENTS_FOLDER/$EXPERIMENT/$ID
 BASE_FOLDER='/home/awuxingh/new_TTL/TrackToLearn'
 
 if (( $CUDA_VISIBLE_DEVICES > -1 )); then
@@ -54,6 +53,7 @@ if (( $CUDA_VISIBLE_DEVICES > -1 )); then
 for res_train in "${RESOLUTION[@]}"
 do 
   # This should point to your dataset folder
+  DEST_FOLDER=$EXPERIMENTS_FOLDER/$EXPERIMENT/$res_train
   DATASET_FOLDER="/home/awuxingh/data/${res_train}"
   VALIDATION_SUBJECT_ID=$res_train
   SUBJECT_ID=$res_train
